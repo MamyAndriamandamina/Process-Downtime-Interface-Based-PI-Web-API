@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var x = ViewData["mydata"];
+}
+<script type="text/javascript" src="~/js/pida.js"></script>
+<blockquote class="blockquote text-center">
+    <p class="mb-0">Welcome to PI Data Acrhive page.</p>
+    <p class="mb-0">This page aims to provide a quick access for users to browse through the existing PI Data Acrhive Tags</p>
+    <footer class="blockquote-footer">PI DA System <cite title="Source Title">youremail@company.com</cite></footer>
+</blockquote>
+<div class="row">Start Time: <input id="Fromdate" type="datetime-local" /></div>
+ &nbsp;&nbsp;&nbsp;&nbsp;
+<div class="row">End Time: <input id="Todate" type="datetime-local" /></div>
+ &nbsp;&nbsp;&nbsp;&nbsp;
+<div class="row">
+    <div class="col-6">
+        <div class="row">
+            <div class="col-6"><input style="width:100%" type="text" id="pipointtext" placeholder="Search PI point..." /></div>
+            <div class="col-6"><input style="width:100%" type="button" onclick="SearchForPIPoint()" class="btn btn-success btn-block" value="Search PI Point" /></div>
+        </div>
+        <div class="row">
+            <table style="width:100%" id="foundpipoint"></table>
+        </div>
+    </div>
+    <div class="col-6">
+        <table style="width:100%" id="mytable"></table>
+    </div>
+    @*<div class="col-4">
+        <div id="plotarea"></div>
+    </div>*@
+</div>
+
+

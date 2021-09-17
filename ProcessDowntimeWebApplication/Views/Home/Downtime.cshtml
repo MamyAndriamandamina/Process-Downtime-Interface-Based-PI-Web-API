@@ -1,0 +1,117 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var x = ViewData["json"] as List<Event>;
+    var i = 1;
+    var ganttstart = 0;
+}
+<script type="text/javascript" src="~/js/LoadConfig.js"></script>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="row">
+        <form action="eventframe" method="post" class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="row">Areas: </div>
+                    <div class="row">
+                        <select name="TemplateName" id="DonwtimeId" style="width:100%">
+                            <option value="3200_Downtime">Please Select Area (default 3200 PAL)</option>
+                            <option value="3200_Downtime">3200 PAL</option>
+                            <option value="3300_Downtime">3300 PAL</option>
+                            <option value="3400_Downtime">3400 PAL</option>
+                            <option value="3500_Downtime">3500 PAL</option>
+                            <option value="3900_Downtime">3900 REF</option>
+                            <option value="4000_Downtime">4000 REF</option>
+                            <option value="4100_Downtime">4100 REF</option>
+                            <option value="4200_Downtime">4200 REF</option>
+                            <option value="4300_Downtime">4300 REF</option>
+                            <option value="4400_Downtime">4400 REF</option>
+                            <option value="4600_Downtime">4600 REF</option>
+                            <option value="4700_Downtime">4700 REF</option>
+                            <option value="4800_Downtime">4800 REF</option>
+                            <option value="4900_Downtime">4900 REF</option>
+                            <option value="6100_Downtime">6100 UTIL</option>
+                            <option value="6300_Downtime">6300 UTIL</option>
+                            <option value="6400_Downtime">6400 UTIL</option>
+                            <option value="6700_Downtime">6700 UTIL</option>
+                            <option value="6900_Downtime">6900 UTIL</option>
+                            <option value="7400_Downtime">7400 UTIL</option>
+                            <option value="9700_Downtime">9700 UTIL</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display:none" class="col-sm">
+                    <input id="FromSelect" type="text" name="FromSelect" value="@ViewBag.Area" />
+                </div>
+                <div class="col-sm">
+                    Start Time: <input id="fromdate" type="datetime-local" name="FromDate" value="@ViewBag.StartTime" />
+                </div>
+                <div class="col-sm">
+                    End Time: <input id="todate" type="datetime-local" name="ToDate" value="@ViewBag.EndTime" />
+                </div>
+                <div class="col-sm">
+                    <input type="submit" class="btn btn-success btn-block" value="Show Downtime" />
+                </div>
+            </div>
+        </form>
+    </div>
+}
+<div>
+    <div class="row">
+        &nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+    <div class="row">
+        <div class="col-12">
+            @if (ViewData["json"] != null)
+            {
+                <table id="mytable" class="table">
+                    <thead class="thead-dark">
+                        <tr class="table-dark table-bordered">
+                            <th>Item #</th>
+                            <th>StartTime</th>
+                            <th>EndTime</th>
+                            <th>Duration</th>
+                            <th style="width:10%">Acknowledged By</th>
+                            <th>Asset Name</th>
+                            <th>Description 1</th>
+                            <th>Description 2</th>
+                            <th>Description 3</th>
+                            <th>Interaction</th>
+                            <th style="width:30%">Gantt (downtime period)</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in x)
+                    {
+                        <tbody>
+                            <tr class="table-bordered">
+                                <td>@i</td>
+                                <td>@item.StartTime</td>
+                                <td>@item.EndTime</td>
+                                <td>@item.Duration</td>
+                                <td style="width:10%"><img src="~/Images/@(item.AcknowledgedBy+".jpg")" />@item.AcknowledgedBy</td>
+                                <td>@item.PrimaryReferencedElement</td>
+                                <td>@item.Description_One</td>
+                                <td>@item.Description_Two</td>
+                                <td>@item.Description_Three</td>
+                                <td><form action="EventDetails" method="post" target="_blank"><input style="display:none" name="WebId" value="@item.StartTime|@item.EndTime|@item.PrimaryReferencedElement|@item.WebId|@item.Duration" /><input type="submit" class="btn btn-success btn-block" value="Interact"></form></td>
+                                <td>
+                                    Downtime percentage: @(item.downtimepercent+"%")
+                                    <svg id="svgOne" xmlns="http://www.w3.org/2000/svg" width="100%" height="30">
+                                        <rect x=@(ganttstart+"%") y=0 width=@(item.downtimepercentstart+"%") height="25" fill="rgb(248, 248, 255)" />
+                                        <rect x=@(item.downtimepercentstart+"%") y=0 width=@(item.downtimepercent+"%") height="25" fill="rgb(34, 177, 76)" />
+                                        <rect x="0%" y=0 width="100%" height="25" stroke="rgb(52, 58, 64)" stroke-width="1" fill="none" />
+                                    </svg>
+                                </td>
+                            </tr>
+                        </tbody>
+                        i = i + 1;
+                    }
+                </table>
+            }
+        </div>
+    </div>
+</div>
+<partial name="EventFrame" />
+
+

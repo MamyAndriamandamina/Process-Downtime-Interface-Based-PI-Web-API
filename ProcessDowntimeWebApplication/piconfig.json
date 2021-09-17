@@ -1,0 +1,27 @@
+{
+  "Items": [
+    {
+      /*Please overwrite the below WebId with your target OSISoft PI AF Database WebId. 
+      The database that you have used to configure your Process Downtime Project (PI Analyses, PI Event frame, Formula, ...)*/
+      "WebId": "F1RDcegbpJtv7kKlF5s1SRObWgdnpQTlgBHESIxarx2XwY5wTUdQUElBRjAxXEFNQkFUT1ZZIFJFUE9SVElORw",
+      "Name": "AssetDatabase"
+    },
+    {
+      //Please overwrite the below WebId with your PI DA WebId, the one that holds the OSISoft PI point and PI data. 
+      "WebId": "F1DS2_vOpnH0N0Oz7BWxBtIkkwTUdUUFBJMDE",
+      "Name": "dataservers"
+    },
+    {
+      /*Please overwrite the below WebId with your target OSISoft PI AF Database WebId. 
+      The database that you have used to store the architecture of your WareHouse.
+      */
+      "WebId": "F1RDcegbpJtv7kKlF5s1SRObWgLV__Bof02EujqfQ_ZJc3bQTUdQUElBRjAxXEFNQkFUT1ZZIFBST0NFU1MgRE9XTlRJTUU",
+      "Name": "WareHouse"
+    },
+    {
+      /*Please overwrite the below HostName with the name of your PI Web API Server Machine - or simply the PI AF Server Machine assuming the target PI web API is installed on it*/
+      "HostName": "MachineName",
+      "Name": "PiWebApiServerMachine"
+    }    
+  ]
+}

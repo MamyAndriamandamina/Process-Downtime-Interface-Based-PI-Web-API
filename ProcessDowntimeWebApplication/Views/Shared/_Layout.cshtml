@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ProcessDowntimeWebApplication</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Downtime">Downtime</a>
+                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="PI_AF_Analyses">Downtime Config</a>
+                        </li>
+
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="PI_DA_Archive">PI Data Archive</a>
+                        </li>
+
+                    }
+                </ul>
+                <span class="navbar-nav ml-auto">
+                    @if (User.Identity.IsAuthenticated && User.Claims.Count() == 2)
+
+                    {
+                        <a class="nav-link text-dark" asp-area="  mr-auto" style="background-color:lightgray; border-radius:30px; font-stretch:normal" asp-controller="Home" asp-action="Logout"><span style="color:green"><i class="fa fa-power-off" aria-hidden="true"></i> LogOff | @User.FindFirst("DisplayName").Value</span></a>
+                    }
+                    @if (User.Identity.IsAuthenticated && User.Claims.Count() == 3)
+                    {
+                        <a class="nav-link text-dark" asp-area="" style="background-color:lightgray; border-radius:30px; font-stretch:normal" asp-controller="Home" asp-action="Logout"><span style="color:green"><i class="fa fa-power-off" aria-hidden="true"></i> LogOff | @User.FindFirst("DisplayName").Value|@User.FindFirst("Description").Value</span></a>
+                    }
+                </span>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid" style="background-color:ghostwhite">
+        <main role="main" class="pb-4">
+            @RenderBody()
+        </main>
+        @if (IsSectionDefined("myjs"))
+        {
+            @RenderSection("myjs", required: true)
+        }
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - Process Downtime Web Application - <a asp-area="" asp-controller="Home" asp-action="Downtime">Downtime</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+    @RenderSection("site", required: false)
+</body>
+</html>

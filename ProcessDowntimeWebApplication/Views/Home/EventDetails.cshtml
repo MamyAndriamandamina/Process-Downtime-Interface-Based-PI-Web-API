@@ -1,0 +1,400 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{var x = ViewData["json"] as List<EventDescription>;}
+<script type="text/javascript" src="~/js/site.js"></script>
+<script type="text/javascript" src="~/js/timeframe.js"></script>
+<script type="text/javascript" src="~/js/setdata.js"></script>
+<script type="text/javascript" src="~/js/push.js"></script>
+<script type="text/javascript" src="~/js/AttachEquipment.js"></script>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="row">
+        <div class="col-4">
+            @foreach (var item in x)
+            {
+                <p><strong>Start Time: </strong><label id="starttime_raw">@item.StartTime</label></p>
+                <p><strong>End Time:  </strong><label id="endtime_raw">@item.EndTime</label></p>
+                <p><strong>Duration:  </strong><label id="duration_raw">@item.Duration</label></p>
+                <p><strong>Asset Name: </strong>@item.ReferencedElement</p>
+            }
+        </div>
+        <div class="col-4">
+            <table id="mytable2" class="table">
+                @foreach (var item in x)
+                {
+                    <thead class="thead-dark table-bordered">
+                        <tr>
+                            <th style="font-family:Verdana; width: 33.33%; font-size:12px;"><strong>Image</strong></th>
+                            <th style="font-family:Verdana; width: 33.33%; font-size:12px;"><strong>Acknowledged By</strong></th>
+                        </tr>
+                    </thead>
+                }
+                @foreach (var item in x)
+                {
+                    <tbody class="table-bordered">
+                        <tr>
+                            <td style="font-family:Verdana; font-size:12px;"><span><img src="~/Images/@(item.AcknowledgedBy+".jpg")" /></span></td>
+                            <td style="font-family:Verdana; font-size:12px;">@item.AcknowledgedBy</td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+
+    <div class="row">
+        &nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+
+    <table class="table">
+        @foreach (var item in x)
+        {
+            <thead class="thead-light">
+                <tr>
+                    <th style="font-family:Verdana; width: 33.33%; font-size:12px;"><strong>Split[%]</strong></th>
+                    <th style="font-family:Verdana; width: 33.33%; font-size:12px;"><strong>Start Time</strong></th>
+                    <th style="font-family:Verdana; width: 33.33%; font-size:12px;"><strong>End Time</strong></th>
+                    <th style="font-family:Verdana; width: 33.33%; font-size:12px;"><strong>Crew</strong></th>
+                    <th style="font-family:Verdana; width: 33.33%; font-size:12px;"><strong>Description</strong></th>
+                    <th style="font-family:Verdana; width: 33.33%; font-size:12px;"><strong>Field</strong></th>
+                    <th style="font-family:Verdana; width: 33.33%; font-size:12px;"><strong>Schedule</strong></th>
+                    <th style="font-family:Verdana; width: 33.33%; font-size:12px;"><strong>Scope</strong></th>
+                    <th style="font-family:Verdana; width: 33.33%; font-size:12px;"><strong>Equipment Tag</strong></th>
+                    <th style="font-family:Verdana; width: 33.33%; font-size:12px;"><strong>Equipment Path</strong></th>
+                    <th style="font-family:Verdana; width: 33.33%; font-size:12px;"><strong>Additional Info</strong></th>
+                </tr>
+            </thead>
+        }
+        @foreach (var item in x)
+        {
+            <tbody>
+                <tr>
+                @{
+                    var p = @item.Percentage;
+                    if (p=="")
+                    {
+                        p = "0|0|0";
+                    }
+                    var perc = p.Split('|');
+                }
+                    <td>@perc[0]</td>
+                    <td><label id="data_1_start_time">@item.One_StartTime</label></td>
+                    <td><label id="data_1_end_time">@item.One_EndTime</label></td>
+                    <td><label id="data_1_crew">@item.One_Crew</label></td>
+                    <td><label id="data_1_description">@item.One_Description</label></td>
+                    <td><label id="data_1_field">@item.One_Field</label></td>
+                    <td><label id="data_1_schedule">@item.One_Schedule</label></td>
+                    <td><label id="data_1_scope">@item.One_Scope</label></td>
+                    <td><label id="data_1_equipment_tag">@item.One_Equipment_Tag</label></td>
+                    <td><label id="data_1_equipment_path">@item.One_Equipment_Path</label></td>
+                    <td><label id="data_1_additional_info">@item.One_Additional_Info</label></td>
+                </tr>
+                <tr>
+                    <td>@perc[1]</td>
+                    <td><label id="data_2_start_time">@item.Two_StartTime</label></td>
+                    <td><label id="data_2_end_time">@item.Two_EndTime</label></td>
+                    <td><label id="data_2_crew">@item.Two_Crew</label></td>
+                    <td><label id="data_2_description">@item.Two_Description</label></td>
+                    <td><label id="data_2_field">@item.Two_Field</label></td>
+                    <td><label id="data_2_schedule">@item.Two_Schedule</label></td>
+                    <td><label id="data_2_scope">@item.Two_Scope</label></td>
+                    <td><label id="data_2_equipment_tag">@item.Two_Equipment_Tag</label></td>
+                    <td><label id="data_2_equipment_path">@item.Two_Equipment_Path</label></td>
+                    <td><label id="data_2_additional_info">@item.Two_Additional_Info</label></td>
+                </tr>
+                <tr>
+                    <td>@perc[2]</td>
+                    <td><label id="data_3_start_time">@item.Three_StartTime</label></td>
+                    <td><label id="data_3_end_time">@item.Three_EndTime</label></td>
+                    <td><label id="data_3_crew">@item.Three_Crew</label></td>
+                    <td><label id="data_3_description">@item.Three_Description</label></td>
+                    <td><label id="data_3_field">@item.Three_Field</label></td>
+                    <td><label id="data_3_schedule">@item.Three_Schedule</label></td>
+                    <td><label id="data_3_scope">@item.Three_Scope</label></td>
+                    <td><label id="data_3_equipment_tag">@item.Three_Equipment_Tag</label></td>
+                    <td><label id="data_3_equipment_path">@item.Three_Equipment_Path</label></td>
+                    <td><label id="data_3_additional_info">@item.Three_Additional_Info</label></td>
+                </tr>               
+            </tbody>
+        }
+    </table>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="col-sm-12"><input onclick="FindAllEnumerationSets()" id="UpdateEvent" class="btn btn-info btn-block" style="font-family:Verdana; font-size:12px;" value="Change Event Descriptions"></div>
+            <div class="col-sm-12"><button type="button" class="btn btn-primary btn-block" id="Confirmation" style="font-family: Verdana; font-size: 12px; display: none" data-toggle="modal" onclick="SetDataToPI()" data-target="#ModalDowntimeEvent">Send to PI</button></div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+    <div class="row" id="EventDetails" style="display:none">
+        <div class="col-4">
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-11">
+                    <strong>Description 1</strong>
+                    <div class="row">Split Event:</div>
+                    <div class="row">
+                        <select style="width:50%" id="Eventpercent_1" onclick="ValidateEvent()" onkeyup="ValidateEvent()" name="Description"></select> %
+                    </div>
+                    <div class="row">Start Time: <label id="starttime_1"></label></div>
+                    <div class="row">End Time: <label id="endtime_1"></label></div>
+                    <div class="row">Crew:</div>
+                    <div class="row">
+                        <select style="width:50%" id="Crew_1">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="row">Description:</div>
+                    <div class="row">
+                        <select style="width:50%" id="Description_1">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="row">Field:</div>
+                    <div class="row">
+                        <select style="width:50%" id="Field_1">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="row">Schedule:</div>
+                    <div class="row">
+                        <select style="width:50%" id="Schedule_1">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="row">Scope:</div>
+                    <div class="row">
+                        <select style="width:50%" id="Scope_1">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="row">Equipment Section:<button type="button" class="btn btn-success btn-block" onclick="ReportId(event)" id="Asset_1" data-toggle="modal" data-target="#ModalAsset">Add Equipments...</button></div>
+                    <div class="row">Equipment Name:</div>
+                    <div class="row"><label id="equipment_name_1"></label></div>
+                    <div class="row">Equipment Location:</div>
+                    <div class="row"><label id="equipment_location_1"></label></div>
+                    <div class="row">Additional Info:</div>
+                    <div class="row"><input type="text" class="form-control" id="InfoText1" placeholder="Failure Info..." /></div>
+                    </div>
+                </div>
+            </div>
+        <div class="col-4">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-11">
+                        <strong>Description 2</strong>
+                        <div class="row">Split Event:</div>
+                        <div class="row">
+                            <select style="width:50%" id="Eventpercent_2" onclick="ValidateEvent()" onkeyup="ValidateEvent()" name="Description"></select> %
+                        </div>
+                        <div class="row">Start Time: <label id="starttime_2"></label></div>
+                        <div class="row">End Time: <label id="endtime_2"></label></div>
+                        <div class="row">Crew:</div>
+                        <div class="row">
+                            <select style="width:50%" id="Crew_2">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="row">Description:</div>
+                        <div class="row">
+                            <select style="width:50%" id="Description_2">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="row">Field:</div>
+                        <div class="row">
+                            <select style="width:50%" id="Field_2">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="row">Schedule:</div>
+                        <div class="row">
+                            <select style="width:50%" id="Schedule_2">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="row">Scope:</div>
+                        <div class="row">
+                            <select style="width:50%" id="Scope_2">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="row">Equipment Section:<button type="button" class="btn btn-success btn-block" onclick="ReportId(event)" id="Asset_2" data-toggle="modal" data-target="#ModalAsset">Add Equipments...</button></div>
+                        <div class="row">Equipment Name:</div>
+                        <div class="row"><label id="equipment_name_2"></label></div>
+                        <div class="row">Equipment Location:</div>
+                        <div class="row"><label id="equipment_location_2"></label></div>
+                        <div class="row">Additional Info:</div>
+                        <div class="row">
+                            <input type="text" class="form-control" id="InfoText2" placeholder="Failure Info..." />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="col-4">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-11">
+                        <strong>Description 3</strong>
+                        <div class="row">Split Event:</div>
+                        <div class="row">
+                            <select style="width:50%" id="Eventpercent_3" onclick="ValidateEvent()" onkeyup="ValidateEvent()" name="Description"></select> %
+                        </div>
+                        <div class="row">Start Time: <label id="starttime_3"></label></div>
+                        <div class="row">End Time: <label id="endtime_3"></label></div>
+                        <div class="row">Crew:</div>
+                        <div class="row">
+                            <select style="width:50%" id="Crew_3">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="row">Description:</div>
+                        <div class="row">
+                            <select style="width:50%" id="Description_3">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="row">Field:</div>
+                        <div class="row">
+                            <select style="width:50%" id="Field_3">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="row">Schedule:</div>
+                        <div class="row">
+                            <select style="width:50%" id="Schedule_3">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="row">Scope:</div>
+                        <div class="row">
+                            <select style="width:50%" id="Scope_3">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="row">Equipment Section:<button type="button" class="btn btn-success btn-block" onclick="ReportId(event)" id="Asset_3" data-toggle="modal" data-target="#ModalAsset">Add Equipments...</button></div>
+                        <div class="row">Equipment Name:</div>
+                        <div class="row"><label id="equipment_name_3"></label></div>
+                        <div class="row">Equipment Location:</div>
+                        <div class="row"><label id="equipment_location_3"></label></div>
+                        <div class="row">Additional Info:</div>
+                        <div class="row">
+                            <input type="text" class="form-control" id="InfoText3" placeholder="Failure Info..." />
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="modal fade" id="ModalDowntimeEvent" tabindex="-1" role="dialog" aria-labelledby="DowntimeEventLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">PI Data Review & Confirmation by: @User.FindFirst("DisplayName").Value</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div style="display:none">
+                        @foreach (var item in x)
+                        {
+                            <label id="Percentage_webId">@item.Percentage_webId</label>
+                            <label id="Acknowledged_webId">@item.AcknowledgedWebId</label>
+                            <label id="data_1_start_time_webId">@item.One_StartTime_webId</label>
+                            <label id="data_1_end_time_webId">@item.One_EndTime_webId</label>
+                            <label id="data_1_crew_webId">@item.One_Crew_webId</label>
+                            <label id="data_1_description_webId">@item.One_Description_webId</label>
+                            <label id="data_1_field_webId">@item.One_Field_webId</label>
+                            <label id="data_1_schedule_webId">@item.One_Schedule_webId</label>
+                            <label id="data_1_scope_webId">@item.One_Scope_webId</label>
+                            <label id="data_1_equipment_tag_webId">@item.One_Equipment_Tag_webId</label>
+                            <label id="data_1_equipment_path_webId">@item.One_Equipment_Path_webId</label>
+                            <label id="data_1_additional_info_webId">@item.One_Additional_Info_webId</label>
+                            <label id="data_2_start_time_webId">@item.Two_StartTime_webId</label>
+                            <label id="data_2_end_time_webId">@item.Two_EndTime_webId</label>
+                            <label id="data_2_crew_webId">@item.Two_Crew_webId</label>
+                            <label id="data_2_description_webId">@item.Two_Description_webId</label>
+                            <label id="data_2_field_webId">@item.Two_Field_webId</label>
+                            <label id="data_2_schedule_webId">@item.Two_Schedule_webId</label>
+                            <label id="data_2_scope_webId">@item.Two_Scope_webId</label>
+                            <label id="data_2_equipment_tag_webId">@item.Two_Equipment_Tag_webId</label>
+                            <label id="data_2_equipment_path_webId">@item.Two_Equipment_Path_webId</label>
+                            <label id="data_2_additional_info_webId">@item.Two_Additional_Info_webId</label>
+                            <label id="data_3_start_time_webId">@item.Three_StartTime_webId</label>
+                            <label id="data_3_end_time_webId">@item.Three_EndTime_webId</label>
+                            <label id="data_3_crew_webId">@item.Three_Crew_webId</label>
+                            <label id="data_3_description_webId">@item.Three_Description_webId</label>
+                            <label id="data_3_field_webId">@item.Three_Field_webId</label>
+                            <label id="data_3_schedule_webId">@item.Three_Schedule_webId</label>
+                            <label id="data_3_scope_webId">@item.Three_Scope_webId</label>
+                            <label id="data_3_equipment_tag_webId">@item.Three_Equipment_Tag_webId</label>
+                            <label id="data_3_equipment_path_webId">@item.Three_Equipment_Path_webId</label>
+                            <label id="data_3_additional_info_webId">@item.Three_Additional_Info_webId</label>
+                        }
+                    </div>
+                    <table id="confirmation_table" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="font-family:Verdana;font-size:12px;"><strong>Split #</strong></th>
+                                <th style="font-family:Verdana;font-size:12px;"><strong>Start Time</strong></th>
+                                <th style="font-family:Verdana;font-size:12px;"><strong>End Time</strong></th>
+                                <th style="font-family:Verdana;font-size:12px;"><strong>Crew</strong></th>
+                                <th style="font-family:Verdana;font-size:12px;"><strong>Description</strong></th>
+                                <th style="font-family:Verdana;font-size:12px;"><strong>Field</strong></th>
+                                <th style="font-family:Verdana;font-size:12px;"><strong>Schedule</strong></th>
+                                <th style="font-family:Verdana;font-size:12px;"><strong>Scope</strong></th>
+                                <th style="font-family:Verdana;font-size:12px;"><strong>Equipment Tag Name</strong></th>
+                                <th style="font-family:Verdana;font-size:12px;"><strong>Equipment Location</strong></th>
+                                <th style="font-family:Verdana;font-size:12px;"><strong>Failure Info</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <p>Sending blank information to PI = Clearing the downtime Description(s)</p>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" onclick="PostEvent()" data-dismiss="modal" class="btn btn-danger">Send Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ModalAsset" tabindex="-1" role="dialog" aria-labelledby="DowntimeAssetLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Search Equipment to attach with description</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <label style="display:none" id="Target">target</label>
+                        <label style="display:none" id="Target_location">target location</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4"><p class="font-italic" style="width: 100%">using wildcard (*) supported.</p></div>
+                                <div class="col-4"><input type="text" class="form-control" style="width: 100%" id="elementid" placeholder="Searching for equipment..." /></div>
+                                <div class="col-4"><button type="button" style="width: 100%" onclick="SearchEquipment()" class="btn btn-success">Search</button></div>
+                            </div>
+                                <div class="row"><p class="font-weight-normal">Equipment found: </p><p id="equip_num" ></p></div>
+                                <div class="row">
+                                    <table id="Equipment_search_table" class="table"></table>
+                                </div>
+                            </div>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>                        
+                    </div>
+                </div>
+        </div>
+    </div>
+}
